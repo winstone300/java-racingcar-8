@@ -20,16 +20,40 @@ public class CarNameParserTest {
     }
 
     @Test
+    public void 쉼표로_구분_테스트_공백포함시() {
+        String input = "aa,bb,,dd,ee";
+        assertThatThrownBy(() -> parser.sepCarList(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름이 비어 있습니다.");
+    }
+
+    @Test
+    public void 쉼표로_구분_테스트_글자_초과시() {
+        String input = "aa,bbbbb,cc,dd,ee";
+        assertThatThrownBy(() -> parser.sepCarList(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름은 4자 이하여야 합니다. 입력: " + "bbbbb");
+    }
+
+    @Test
     public void 자동차_이름_검증_4자_이하일때_테스트() {
-        String input = "aa,bb,cc,dd,ee";
-        assertTrue(parser.carNameLenCheck(parser.sepCarList(input)));
+        Car a = new Car("aa");
+        assertEquals(a.getName(), "aa");
     }
 
     @Test
     public void 자동차_이름_검증_5자_이상일때_테스트() {
-        String input = "aa,bbbbb,cc,dd,ee";
-        assertThatThrownBy(() -> parser.carNameLenCheck(parser.sepCarList(input))).isInstanceOf(
-                        IllegalArgumentException.class)
-                .hasMessage("자동차 이름 길이가 5자 이상");
+        String input = "aaaaa";
+        assertThatThrownBy(() -> new Car(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름은 4자 이하여야 합니다. 입력: " + input);
+    }
+
+    @Test
+    public void 자동차_이름_공백일때_테스트() {
+        String input = "";
+        assertThatThrownBy(() -> new Car(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름이 비어 있습니다.");
     }
 }

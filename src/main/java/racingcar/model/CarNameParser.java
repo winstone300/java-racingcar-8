@@ -1,7 +1,9 @@
 package racingcar.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class CarNameParser {
     private static final Pattern DEFAULT_DELIMITERS = Pattern.compile("[,]");
@@ -10,10 +12,11 @@ public class CarNameParser {
     }
 
     public List<Car> sepCarList(String input) {
-        return null;
-    }
+        List<Car> carList = DEFAULT_DELIMITERS.splitAsStream(input)
+                .map(String::trim)
+                .map(Car::new)
+                .collect(Collectors.toList());
 
-    public boolean carNameLenCheck(List<Car> carNameList) {
-        return false;
+        return carList;
     }
 }
