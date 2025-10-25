@@ -7,6 +7,8 @@ public class Car {
     private int position = 0;
 
     public Car(String name) {
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("이름이 비어 있습니다.");
+        if (name.length() >= 5) throw new IllegalArgumentException("이름은 4자 이하여야 합니다. 입력: " + name);
         this.name = name;
     }
 
